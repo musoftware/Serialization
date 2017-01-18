@@ -1,0 +1,5 @@
+c:\users\mu12\documents\visual studio 2013\Projects\Serialization\Serialization\bin\Debug\Serialization.exe
+c:\users\mu12\documents\visual studio 2013\Projects\Serialization\Serialization\bin\Debug\Serialization.pdb
+c:\users\mu12\documents\visual studio 2013\Projects\Serialization\Serialization\obj\Debug\Serialization.csprojResolveAssemblyReference.cache
+c:\users\mu12\documents\visual studio 2013\Projects\Serialization\Serialization\obj\Debug\Serialization.exe
+c:\users\mu12\documents\visual studio 2013\Projects\Serialization\Serialization\obj\Debug\Serialization.pdb
