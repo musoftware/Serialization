@@ -11,6 +11,8 @@ namespace Serialization
     {
         Thread mainThread;
 
+        static object Obj = new object();
+
         Collection<Action> actions = new Collection<Action>();
 
         public void AddProcess(Action action)
@@ -20,33 +22,36 @@ namespace Serialization
 
         public void Run()
         {
-            if (mainThread != null) return;
-            mainThread = new Thread(() =>
+            lock (Obj)
             {
-                try
+                if (mainThread != null) return;
+                mainThread = new Thread(() =>
                 {
-                    while (true)
+                    try
                     {
-                        if (actions.Count == 0) break;
-                        if (actions[0] == null)
+                        while (true)
                         {
+                            if (actions.Count == 0) break;
+                            if (actions[0] == null)
+                            {
+                                actions.RemoveAt(0);
+                            }
+                            if (actions.Count == 0) break;
+                            actions[0].Invoke();
                             actions.RemoveAt(0);
                         }
-                        if (actions.Count == 0) break;
-                        actions[0].Invoke();
-                        actions.RemoveAt(0);
                     }
-                }
-                catch
-                {
+                    catch
+                    {
 
-                }
-                finally
-                {
-                    mainThread = null;
-                }
-            });
-            mainThread.Start();
+                    }
+                    finally
+                    {
+                        mainThread = null;
+                    }
+                });
+                mainThread.Start();
+            }
         }
 
 
