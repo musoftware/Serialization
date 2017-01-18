@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Serialization
 {
@@ -12,24 +13,17 @@ namespace Serialization
         {
             SerializationClass cc = new SerializationClass();
 
-            cc.AddProcess(() =>
+            for (int i = 0; i < 100; i++)
             {
-                Console.WriteLine("1 Action");
-                Thread.Sleep(1000);
-            });
-            cc.Run();
-            cc.AddProcess(() =>
-            {
-                Console.WriteLine("2 Action");
-                Thread.Sleep(1000);
-            });
-            cc.Run();
-            cc.AddProcess(() =>
-            {
-                Console.WriteLine("3 Action");
-                Thread.Sleep(1000);
-            });
-
+                var ii = i;
+                cc.AddProcess(() =>
+                {
+                    Console.WriteLine(ii + " Action");
+                    if (ii % 10 == 0) throw new Exception("error " + ii);
+                    Thread.Sleep(10);
+                });
+                cc.Run();
+            }
             cc.Run();
 
             Console.ReadLine();

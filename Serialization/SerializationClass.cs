@@ -12,12 +12,34 @@ namespace Serialization
         Thread mainThread;
 
         static object Obj = new object();
+        static object Obj2 = new object();
 
         Collection<Action> actions = new Collection<Action>();
 
         public void AddProcess(Action action)
         {
-            actions.Add(action);
+            try
+            {
+                if (Monitor.TryEnter(Obj2))
+                {
+                    actions.Add(() =>
+                    {
+                        try
+                        {
+                            action.Invoke();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error: " + ex.Message);
+                        }
+                    });
+
+                }
+            }
+            finally
+            {
+                Monitor.Exit(Obj2);
+            }
         }
 
         public void Run()
